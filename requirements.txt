@@ -1,0 +1,9 @@
+customtkinter
+pyautogui
+opencv-python
+pillow
+mss
+fire
+psutil
+pygame
+pytesseract
