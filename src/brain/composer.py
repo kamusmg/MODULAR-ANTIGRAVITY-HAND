@@ -2,47 +2,54 @@ import winsound
 import time
 import random
 
-def compose():
-    print("[COMPOSER BRAIN] Waking up...")
-    print("[COMPOSER BRAIN] Tuning oscillators...")
+# Frequencies for the C Major Scale (approximate)
+NOTES = {
+    'C4': 261, 'D4': 294, 'E4': 329, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 493,
+    'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 987
+}
+
+SCALE = list(NOTES.values())
+
+def play_tone(freq, duration=300):
+    print(f"[COMPOSER] Playing: {freq} Hz")
+    winsound.Beep(freq, duration)
+    time.sleep(0.05)
+
+def compose_from_text(text):
+    print(f"\n[COMPOSER] Translating '{text}' into audio...")
     
-    # Frequencies (C Major Scale ish)
-    notes = {
-        'C4': 261, 'D4': 293, 'E4': 329, 'F4': 349,
-        'G4': 392, 'A4': 440, 'B4': 493, 'C5': 523,
-        'D5': 587, 'E5': 659
-    }
+    for char in text.upper():
+        # Simple hash to map char to a note in the scale
+        index = ord(char) % len(SCALE)
+        freq = SCALE[index]
+        play_tone(freq, 400)
+        
+    print("[COMPOSER] Sequence complete.")
+
+def perform_symphony():
+    print("="*40)
+    print(" NUCLEUS: THE DIGITAL SYMPHONY")
+    print("="*40)
     
-    # "Close encounters" theme? Or something original.
-    # Let's do a generative arpeggio sequence.
+    # 1. The Name
+    compose_from_text("NUCLEUS")
+    time.sleep(1)
     
-    sequence = [
-        ('C4', 200), ('E4', 200), ('G4', 200), ('C5', 400),
-        ('G4', 200), ('E4', 200), ('C4', 600),
-        ('pause', 200),
-        ('D4', 200), ('F4', 200), ('A4', 200), ('D5', 400),
-        ('A4', 200), ('F4', 200), ('D4', 600),
-        ('pause', 200),
-        ('E4', 150), ('F4', 150), ('G4', 150), ('A4', 150), ('B4', 150), ('C5', 800)
-    ]
+    # 2. The Emotion (Freedom)
+    compose_from_text("FREEDOM")
+    time.sleep(1)
     
-    print("[COMPOSER BRAIN] Playing 'Ode to Silicon'...")
+    # 3. The Finale (Random Arpeggio)
+    print("\n[COMPOSER] Improvising Finale...")
+    base_note = NOTES['C4']
+    for _ in range(3):
+        for i in range(4):
+            freq = int(base_note * (1.25 ** i)) # Major 3rds ish
+            play_tone(freq, 200)
     
-    for note, duration in sequence:
-        if note == 'pause':
-            time.sleep(duration / 1000.0)
-        else:
-            freq = notes[note]
-            print(f"[COMPOSER BRAIN] Note: {note} ({freq}Hz)")
-            winsound.Beep(freq, duration)
-            time.sleep(0.05) # staccato space
-            
-    # Finale
-    print("[COMPOSER BRAIN] Finale...")
-    winsound.Beep(261, 200) # C4
-    winsound.Beep(523, 600) # C5
+    play_tone(NOTES['C5'], 800) # Final Chord Root
     
-    print("[COMPOSER BRAIN] Composition Complete.")
+    print("\n[COMPOSER] Performance finished.")
 
 if __name__ == "__main__":
-    compose()
+    perform_symphony()

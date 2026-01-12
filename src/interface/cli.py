@@ -22,16 +22,19 @@ class NeuralLink:
 
     def look(self, filename="vision_buffer.png"):
         """Captures the screen and saves it to a file."""
-        print(f"[LINK] Capturing visual input...")
-        img = self.vision.capture_screen()
-        if img:
-            path = os.path.abspath(filename)
-            img.save(path)
-            print(f"[LINK] Visual input saved to: {path}")
-            return path
-        else:
-            print("[LINK] Vision failure.")
-            return None
+        print("[LINK] Capturing visual input (ALL SCREENS)...")
+        from PIL import ImageGrab
+        import datetime
+        
+        # Capture all monitors
+        screenshot = ImageGrab.grab(all_screens=True)
+        
+        # Save
+        # The filename parameter is ignored as per the instruction's specific implementation
+        output_filename = os.path.join(os.getcwd(), "vision_buffer.png")
+        screenshot.save(output_filename)
+        print(f"[LINK] Visual input saved to: {output_filename}")
+        return output_filename
 
     def move(self, direction="PARADO", intensity="MEDIA"):
         """Moves the mouse (N, S, E, W, etc)."""
